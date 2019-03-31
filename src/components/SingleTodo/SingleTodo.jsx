@@ -3,17 +3,19 @@ import { Button, CollectionItem } from 'react-materialize'
 import React from 'react'
 import styled from 'styled-components'
 
-const SingleTodo = (props) => (
-    <StyledCollectionItem className='todo_item'>
-        {props.text}
-        <StyledButton onClick={() => props.removeTodo(props.id)}>Delete</StyledButton>
-    </StyledCollectionItem>
-)
+const SingleTodo = (props) => {
+    return(
+        <StyledCollectionItem className='todo_item'>
+            {props.text}
+            <StyledButton onClick={() => props.removeTodo(props.id)}>Delete</StyledButton>
+        </StyledCollectionItem>
+    )
+}
 
 const StyledCollectionItem = styled(CollectionItem)`
     width: 100%;
     position: relative;
-    padding-bottom: 20px;
+    font-size: 18px;
 `
 
 const StyledButton = styled(Button)`
@@ -22,4 +24,4 @@ const StyledButton = styled(Button)`
     right: 0;
 `
 
-export default SingleTodo
+export default React.memo(SingleTodo)
