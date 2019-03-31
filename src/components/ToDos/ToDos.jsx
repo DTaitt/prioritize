@@ -1,4 +1,4 @@
-import { Button, Collection } from 'react-materialize'
+import { Button, Collection, TextInput } from 'react-materialize'
 import React, { useState } from 'react'
 
 import SingleTodo from '../SingleTodo/SingleTodo';
@@ -7,27 +7,38 @@ import styled from 'styled-components'
 import uniqid from 'uniqid'
 
 const ToDos = ({ className }) => {
-
+    
+    const [ todoText, setTodoText ] = useState('')
+    const handleTodoInput = (e) => setTodoText(e.target.value)
+    const handleSubmit = (e) => e.key === 'Enter' && addTodo()
+    
     const [ todos, setTodos ] = useState([])
-
-    const addTodo = () => setTodos(prevTodos => [ 
-        ...prevTodos, 
-        { id: uniqid(), text: 'Lorem ipsum dolor sit amet, vix ei elit doctus mandamus. Id cum indoctum persequeris, eos viderer dolorem ad' }]
-    )
-
+    const addTodo = () => {
+        if (!_isEmpty(todoText)) {
+            setTodos(prevTodos => [ 
+                    { id: uniqid(), text: todoText },
+                    ...prevTodos
+                ]
+            )
+        }
+    }
     const removeTodo = (id) => setTodos(prevTodos => prevTodos.filter((todo) => id !== todo.id))
 
+
     return(
-        <StyledSection className={className}>
-            <h1 style={{margin: '20px'}} className="to-do-list">
-                To-Dos
-            <StyledButton small onClick={addTodo}>Add</StyledButton>
-            </h1>
+        <section className={className}>
+            <h1 style={{margin: '20px'}} className="to-do-list">To-Dos</h1>
+            <TextInput
+                placeholder='Write your todo here'
+                onChange={handleTodoInput}
+                onKeyPress={handleSubmit}
+            />
+            <Button small onClick={addTodo}>Add</Button>
             <StyledCollection >
                 {
                     _isEmpty(todos)
                     ? <p>Start adding some todos!</p>
-                    : todos.reverse().map(todoItem => <SingleTodo
+                    : todos.map(todoItem => <SingleTodo
                         key={todoItem.id}
                         id={todoItem.id}
                         text={todoItem.text}
@@ -35,20 +46,9 @@ const ToDos = ({ className }) => {
                     />)
                 }
             </StyledCollection>
-        </StyledSection>
+        </section>
     )
 }
-
-
-const StyledSection = styled.section`
-    position: relative;
-`
-
-const StyledButton = styled(Button)`
-    position: absolute;
-    top: 0;
-    right: 0;
-`
 
 const StyledTodos = styled(ToDos)`
     background: lightgrey;
@@ -69,4 +69,4 @@ const StyledCollection = styled(Collection)`
     align-items: center;
 `
 
-export default StyledTodos
+export default React.memo(StyledTodos)
