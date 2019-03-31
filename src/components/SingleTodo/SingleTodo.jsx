@@ -5,9 +5,9 @@ import styled from 'styled-components'
 
 const SingleTodo = (props) => {
     return(
-        <StyledCollectionItem className='todo_item'>
+        <StyledCollectionItem data-testid='todo-item' className='todo_item'>
             {props.text}
-            <StyledButton onClick={() => props.removeTodo(props.id)}>Delete</StyledButton>
+            <StyledButton data-testid='todo-delete-btn' onClick={() => props.removeTodo(props.id)}>Delete</StyledButton>
         </StyledCollectionItem>
     )
 }

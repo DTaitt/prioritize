@@ -32,9 +32,10 @@ const ToDos = ({ className }) => {
                 placeholder='Write your todo here'
                 onChange={handleTodoInput}
                 onKeyPress={handleSubmit}
+                data-testid='todo-input'
             />
-            <Button small onClick={addTodo}>Add</Button>
-            <StyledCollection >
+            <Button data-testid='todo-add-btn' small onClick={addTodo}>Add</Button>
+            <StyledCollection data-testid='todo-list' >
                 {
                     _isEmpty(todos)
                     ? <p>Start adding some todos!</p>
