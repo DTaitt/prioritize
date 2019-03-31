@@ -13,6 +13,7 @@ const StyledHeader = styled(Header)`
     justify-content: center;
     align-items: center;
     margin: 0 !important;
+    font-size: 24px !important;
 `
 
 export default StyledHeader
