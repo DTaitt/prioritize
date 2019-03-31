@@ -1,7 +1,7 @@
 import { Button, Collection } from 'react-materialize'
 import React, { useState } from 'react'
 
-import CollectionItem from 'react-materialize/lib/CollectionItem';
+import SingleTodo from '../SingleTodo/SingleTodo';
 import _isEmpty from 'lodash.isempty'
 import styled from 'styled-components'
 import uniqid from 'uniqid'
@@ -12,32 +12,43 @@ const ToDos = ({ className }) => {
 
     const addTodo = () => setTodos(prevTodos => [ 
         ...prevTodos, 
-        { id: uniqid(), text: 'lorem ipsum' }]
+        { id: uniqid(), text: 'Lorem ipsum dolor sit amet, vix ei elit doctus mandamus. Id cum indoctum persequeris, eos viderer dolorem ad' }]
     )
 
     const removeTodo = (id) => setTodos(prevTodos => prevTodos.filter((todo) => id !== todo.id))
 
     return(
-        <section className={className}>
+        <StyledSection className={className}>
             <h1 style={{margin: '20px'}} className="to-do-list">
                 To-Dos
-            <Button small onClick={addTodo}>Add</Button>
+            <StyledButton small onClick={addTodo}>Add</StyledButton>
             </h1>
             <StyledCollection >
                 {
                     _isEmpty(todos)
                     ? <p>Start adding some todos!</p>
-                    : todos.map(todoItem => (
-                        <CollectionItem className='todo_item' key={todoItem.id}>
-                            {todoItem.text}
-                            <Button onClick={() => removeTodo(todoItem.id)}>Delete</Button>
-                        </CollectionItem>
-                    ))
+                    : todos.reverse().map(todoItem => <SingleTodo
+                        key={todoItem.id}
+                        id={todoItem.id}
+                        text={todoItem.text}
+                        removeTodo={removeTodo}
+                    />)
                 }
             </StyledCollection>
-        </section>
+        </StyledSection>
     )
 }
+
+
+const StyledSection = styled.section`
+    position: relative;
+`
+
+const StyledButton = styled(Button)`
+    position: absolute;
+    top: 0;
+    right: 0;
+`
 
 const StyledTodos = styled(ToDos)`
     background: lightgrey;
