@@ -1,25 +1,43 @@
 import { Button, List } from 'semantic-ui-react'
+import React, { useState } from 'react'
 
-import React from 'react'
+import _isEmpty from 'lodash.isempty'
 import styled from 'styled-components'
+import uniqid from 'uniqid'
 
-const ToDos = ({ className }) => (
-    <section className={className}>
-        <h1 style={{margin: '20px'}} className="to-do-list">To-Dos</h1>
-        <List style={{margin: 0, padding: '10px', overflow: 'scroll'}} as='ul' divided verticalAlign='middle'>
-            {
-                [1,2,3,4,5,2,2,2,2,2].map((toDoItem, i) => (
-                    <List.Item className='todo_item' key={i}>
-                        <StyledListContent className='todo_text'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, natus quasi. Exercitationem ea corporis, voluptatum, nam maxime saepe distinctio quidem excepturi magni atque explicabo mollitia sapiente ratione odit, sunt est!</StyledListContent>
-                        <List.Content floated='right'>
-                            <Button negative>Delete</Button>
-                        </List.Content>
-                    </List.Item>
-                ))
-            }
-        </List>
-    </section>
-)
+const ToDos = ({ className }) => {
+
+    const [ todos, setTodos ] = useState([])
+
+    const addTodo = () => setTodos(prevTodos => [ 
+        ...prevTodos, 
+        { id: uniqid(), text: 'dummy txt' }]
+    )
+
+    const removeTodo = (id) => setTodos(prevTodos => prevTodos.filter((todo) => id !== todo.id))
+
+    return(
+        <section className={className}>
+            <h1 style={{margin: '20px'}} className="to-do-list">
+                To-Dos
+            <Button positive onClick={addTodo}>Add</Button></h1>
+            <List style={{margin: 0, padding: '10px', overflowY: 'auto', width: '90%'}} as='ul' divided verticalAlign='middle'>
+                {
+                    _isEmpty(todos)
+                    ? <p>Start adding some todos!</p>
+                    : todos.map(todoItem => (
+                        <List.Item className='todo_item' key={todoItem.id}>
+                            <StyledListContent className='todo_text'>{todoItem.text}</StyledListContent>
+                            <List.Content floated='right'> 
+                                <Button negative onClick={() => removeTodo(todoItem.id)}>Delete</Button>
+                            </List.Content>
+                        </List.Item>
+                    ))
+                }
+            </List>
+        </section>
+    )
+}
 
 const StyledTodos = styled(ToDos)`
     background: lightgrey;
@@ -30,10 +48,6 @@ const StyledTodos = styled(ToDos)`
     flex-direction: column;
     align-items: center;
     padding: 0; 
-`
-
-const StyledList = styled(List)`
-    margin: 0;
 `
 
 const StyledListContent = styled(List.Content)`
