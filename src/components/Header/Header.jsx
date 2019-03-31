@@ -1,9 +1,8 @@
 import React from 'react'
-import { Header as SemHeader } from 'semantic-ui-react';
 import styled from 'styled-components'
 
 const Header = ({ className }) => (
-    <SemHeader className={className}>HEADER</SemHeader>
+    <header className={className}>HEADER</header>
 )
 
 const StyledHeader = styled(Header)`
